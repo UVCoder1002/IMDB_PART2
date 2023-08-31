@@ -9,22 +9,31 @@ import Foundation
 
 
 extension MovieListViewController: MovieListDataProviderProtocol{
-    func onSuccess(model: Any) {
-        if let movieList = model as? [Movie] {
-            for movie in movieList {
-                if self.movieList == nil {
-                    self.movieList = [:]
-                }
-                self.movieList?[movie.id] = movie
-            }
-        }
-            self.movieListView.reloadData()
-        }
     
     
-    func onError(error: Error) {
-        print("DEBUG: Error \(error.localizedDescription)")
+    var id: Int {
+        get {
+            return viewId
+        }
+        set {
+            viewId = newValue
+        }
     }
     
+    
+     func initDataProvider() {
+        self.movieListModel = ViewModel(movieList: [:])
+        print("DEBUG: inside initdataprovider")
+        self.movieListModel?.movieList.addObserver(self) { updatedMovieListViewModel in
+            DispatchQueue.main.async {
+                self.movieListView.reloadData()
+            }
+            
+            
+        }
+        self.movieListModel?.getMovieList(from: Constants.fetchMovieListURLString + currentPage.description)
+
+
+    }
     
 }

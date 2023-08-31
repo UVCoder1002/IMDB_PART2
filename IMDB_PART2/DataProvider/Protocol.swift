@@ -9,9 +9,7 @@ import Foundation
 
 
 protocol DataProvider {
-    
-    func onSuccess(model : Any)
-    func onError(error : Error)
+    var id : Int{get set}
     
 }
 
@@ -19,3 +17,4 @@ protocol MovieListDataProviderProtocol : DataProvider{
     
     
 }
+

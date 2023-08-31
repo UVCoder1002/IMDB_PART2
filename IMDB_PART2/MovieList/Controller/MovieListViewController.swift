@@ -12,23 +12,26 @@ class MovieListViewController: UIViewController,UITableViewDelegate,UITableViewD
     
     @IBOutlet weak var movieListView: UITableView!
     var movielistDataProvider : MovieListDataProvider?
-    var movieList : [Int64 : Movie]?
-    @objc var movieListViewModel = ViewModel()
+    var movieListModel : ViewModel?
     private var selectedMovie : Movie?
-    private var isNewPage :  Bool?
-    private var currentPage = 1
+    var currentPage = 1
+    var viewId = 111
+   
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movieList?.count ?? 10
+        return movieListModel?.movieList.value.count ?? 10
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: Constants.movieListViewCellId,for: indexPath) as? MovieListCell{
-            if let movieList = movieList{
-                 let array = Array(movieList.values)[indexPath.row]
-                    cell.configureCell(from: array)
-                
+        if let cell = tableView.dequeueReusableCell(withIdentifier: Constants.movieListViewCellId, for: indexPath) as? MovieListCell
+        {
+            if let dict = movieListModel?.movieList.value
+
+            {
+                let array = [Movie](dict.values)
+                cell.configureCell(from: array[indexPath.row])
+                return cell
             }
-            return cell
         }
         
         
@@ -39,7 +42,7 @@ class MovieListViewController: UIViewController,UITableViewDelegate,UITableViewD
         return 100
     }
     override func viewDidLoad() {
-        isNewPage = true
+
         super.viewDidLoad()
         movieListView.delegate = self
         movieListView.dataSource = self
@@ -48,23 +51,14 @@ class MovieListViewController: UIViewController,UITableViewDelegate,UITableViewD
         // Do any additional setup after loading the view.
     }
     
-    private func initDataProvider() {
-        print("DEBUG: inside initdataprovider")
-        self.movielistDataProvider = MovieListDataProvider()
-        self.movielistDataProvider?.addDelegate(observer: self)
-        self.movielistDataProvider?.getMovieList(pageNo: currentPage)
-       
-    
-        
-
-    }
+   
        
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 //        print("DEBUG: \(movieList?[indexPath.row])")
-        if let movieList = movieList{
-            let array = Array(movieList.values)[indexPath.row]
-            selectedMovie = array
+        if let movieList = movieListModel?.movieList{
+            let array = Array(movieList.value.values)
+            selectedMovie = array[indexPath.row]
         }
         print("DEBUG: selectedmovie \(selectedMovie)")
         performSegue(withIdentifier: "ToMovieDetailsPage", sender: nil)
@@ -72,11 +66,11 @@ class MovieListViewController: UIViewController,UITableViewDelegate,UITableViewD
     
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row + 1 == movieList?.count{
-            isNewPage = true
+        if indexPath.row + 1 == movieListModel?.movieList.value.count{
+        
             currentPage = currentPage + 1
             print("current page: \(currentPage)")
-            self.movielistDataProvider?.getMovieList(pageNo: currentPage)
+            movieListModel?.getMovieList(from: Constants.fetchMovieListURLString + currentPage.description)
         }
     }
 

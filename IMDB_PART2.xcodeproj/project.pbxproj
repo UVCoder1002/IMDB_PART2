@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		C600EAA52A9C5DE400ACCA51 /* DataProviderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C600EAA42A9C5DE400ACCA51 /* DataProviderManager.swift */; };
 		C600EAA72A9C5E3500ACCA51 /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C600EAA62A9C5E3500ACCA51 /* Protocol.swift */; };
-		C600EAA92A9C5E9A00ACCA51 /* MovieListDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C600EAA82A9C5E9A00ACCA51 /* MovieListDataProvider.swift */; };
 		C600EAAB2A9C61C100ACCA51 /* MovieList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C600EAAA2A9C61C100ACCA51 /* MovieList.swift */; };
 		C622EEBC2A99C35E008F9E76 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C622EEBB2A99C35E008F9E76 /* AppDelegate.swift */; };
 		C622EEBE2A99C35E008F9E76 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C622EEBD2A99C35E008F9E76 /* SceneDelegate.swift */; };
@@ -30,7 +29,6 @@
 /* Begin PBXFileReference section */
 		C600EAA42A9C5DE400ACCA51 /* DataProviderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProviderManager.swift; sourceTree = "<group>"; };
 		C600EAA62A9C5E3500ACCA51 /* Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
-		C600EAA82A9C5E9A00ACCA51 /* MovieListDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListDataProvider.swift; sourceTree = "<group>"; };
 		C600EAAA2A9C61C100ACCA51 /* MovieList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieList.swift; sourceTree = "<group>"; };
 		C622EEB82A99C35E008F9E76 /* IMDB_PART2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IMDB_PART2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C622EEBB2A99C35E008F9E76 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -90,7 +88,6 @@
 			children = (
 				C600EAA42A9C5DE400ACCA51 /* DataProviderManager.swift */,
 				C600EAA62A9C5E3500ACCA51 /* Protocol.swift */,
-				C600EAA82A9C5E9A00ACCA51 /* MovieListDataProvider.swift */,
 			);
 			path = DataProvider;
 			sourceTree = "<group>";
@@ -292,7 +289,6 @@
 				C622EED62A99C81C008F9E76 /* URLServices.swift in Sources */,
 				C600EAAB2A9C61C100ACCA51 /* MovieList.swift in Sources */,
 				C622EEDA2A99CEA4008F9E76 /* Constants.swift in Sources */,
-				C600EAA92A9C5E9A00ACCA51 /* MovieListDataProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

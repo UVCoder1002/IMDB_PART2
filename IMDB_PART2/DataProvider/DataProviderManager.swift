@@ -8,19 +8,37 @@
 import Foundation
 
 
-class DataProviderManager<T,S> {
+class DataProviderManager<T> {
     
-    var delegate : [T]?
-    var model : S?
+    typealias CompletionHandler = ((T) -> Void)
     
-    func addDelegate(observer: T){
-        
+    var value : T{
+        didSet{
+            self.notifyObserver(self.observers)
+        }
     }
     
-    func deleteDelegate(){
-        
+    var observers : [Int : CompletionHandler] = [:]
+    
+    init(value: T){
+        self.value = value
     }
-    func notifyDelegates(model: [S]?,error: Error?){
-        
+    
+    func addObserver(_ observer: DataProvider,completion: @escaping CompletionHandler) {
+        self.observers[observer.id] = completion
     }
+    
+    func removeObserver(_ observer: DataProvider) {
+        self.observers.removeValue(forKey: observer.id)
+    }
+    
+    func notifyObserver(_ observers: [Int : CompletionHandler]) {
+        observers.forEach({ $0.value(value)})
+    }
+    
+    deinit{
+        observers.removeAll()
+    }
+        
+   
 }

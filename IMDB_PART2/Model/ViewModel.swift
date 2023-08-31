@@ -10,25 +10,32 @@ import Foundation
 
 @objc class ViewModel: NSObject{
     
-    @objc dynamic var movieList : [Movie]?
+    var movieList : DataProviderManager<[Int64 : Movie]>
     
-    @objc func getMovieList(pageNo page: Int) {
-        
-        Task {
-            await MovieListRepository.shared.getMovieList(from: Constants.fetchMovieListURLString + page.description , completionBlock: { movieList,error in
-                DispatchQueue.main.async {
-                    print("DEBUG: INSIDE GETMOVIELIST(VIEWMODEL)")
-                    self.movieList = movieList
-            }
-                
-            })
-        }
-        
+    init(movieList : [Int64:Movie]){
+        self.movieList = DataProviderManager(value: movieList)
     }
-    func update(){
-        if movieList == nil{
-            movieList = [Movie]()
+    
+    func getMovieList(from url: String) {
+        Task{
+            await URLService.shared.fetchMovieList(from: url) { movieList,error in
+                if let error = error {
+                
+                    print("Error In Fetching GetMovieList \(error.localizedDescription)")
+                }
+                if let movieList = movieList{
+                    
+                    for movie in movieList{
+                        self.movieList.value[movie.id] = movie
+                        let posterURL = URLService.shared.posterImageURL(from: movie.posterPath)
+                        URLService.shared.downloadImg(InputUrl: posterURL) { data in
+                            self.movieList.value[movie.id]?.posterImage = data
+                        
+                        }
+                    }
+    
+                }
+            }
         }
-        movieList?.append(Movie.MOCK_MOVIE)
     }
 }
