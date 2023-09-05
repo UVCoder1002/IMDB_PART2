@@ -38,6 +38,7 @@ class MovieDetailsViewController: UIViewController {
          print("DEBUG: hii \(selectedMovie)")
          configureTitles()
          configurePage(from: selectedMovie)
+       
      }
 
         // Do any additional setup after loading the view.
@@ -57,13 +58,13 @@ class MovieDetailsViewController: UIViewController {
             posterImageView.layer.cornerRadius = 20
         }
         releaseDateLabel.text = movie.releaseDate
-        ratingLabel.text = movie.voteAverage.description
-        popularityLabel.text = movie.popularity.description
+        ratingLabel.text = movie.voteAverage?.description
+        popularityLabel.text = movie.popularity?.description
         overViewDescLabel.text = movie.overview
         navigationBar.topItem?.title = movie.title
         navigationBar.topItem?.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self , action: #selector(dismissPage))
     }
-    
+  
    @objc func dismissPage(){
         self.dismiss(animated: true)
     }

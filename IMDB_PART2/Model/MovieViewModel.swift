@@ -7,14 +7,14 @@
 
 import Foundation
 
-@objc class Movie : NSObject,Codable{
+ class Movie : MovieListable,Codable{
     var id : Int64
-    var posterPath : String
-    var overview : String
-    var voteAverage : Double
-    var title : String
-    var popularity : Double
-    var releaseDate: String
+    var posterPath : String?
+    var overview : String?
+    var voteAverage : Double?
+    var title : String?
+    var popularity : Double?
+    var releaseDate: String?
     var posterImage : Data?
     
     init(id: Int64, posterPath: String, overView: String, voteAverage: Double, title: String, popularity: Double, releaseDate: String, posterImage: Data? = nil) {
@@ -32,8 +32,19 @@ import Foundation
     
 }
 
+protocol MovieListable {
+    var id : Int64 { get set }
+    var title : String? { get set }
+    var posterPath : String? { get set }
+    var overview : String? { get set}
+    var posterImage : Data?  { get set }
+}
 
 struct Movies: Codable {
+    var dates : [String : String]
+    var page : Int64
+    var totalPages : Int64
+    var totalResults : Int64
     var results : [Movie]
 }
 

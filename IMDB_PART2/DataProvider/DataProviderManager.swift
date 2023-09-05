@@ -8,7 +8,7 @@
 import Foundation
 
 
-class DataProviderManager<T> {
+class DataProviderManager<T,S> {
     
     typealias CompletionHandler = ((T) -> Void)
     
@@ -18,8 +18,18 @@ class DataProviderManager<T> {
         }
     }
     
+    var secondValue : S?{
+        didSet{
+            self.notifyObserver(self.observers)
+        }
+    }
+    
     var observers : [Int : CompletionHandler] = [:]
     
+    init(value: T,secondValue: S){
+        self.value = value
+        self.secondValue = secondValue
+    }
     init(value: T){
         self.value = value
     }

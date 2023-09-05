@@ -17,7 +17,7 @@ class MovieListCell: UITableViewCell {
     
     var uniqueValueForPosterImage: Int? = nil
     
-    func configureCell(from movie: Movie) {
+    func configureCell(from movie: MovieListable) {
         let uniqueValue = Int.random(in: 0...Int.max)
         self.uniqueValueForPosterImage = uniqueValue
         movieTitleLabel.text = movie.title
@@ -27,6 +27,7 @@ class MovieListCell: UITableViewCell {
                 return
             }
             else{
+                print("DEBUG: setting pic of \(movie.title)")
                 posterImageView.image = UIImage(data: posterImage)
                 posterImageView.layer.cornerRadius = 10
                 posterImageView.clipsToBounds = true

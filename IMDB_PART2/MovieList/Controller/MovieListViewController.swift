@@ -10,26 +10,50 @@ import UIKit
 class MovieListViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
     
     
+
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var movieListView: UITableView!
-    var movielistDataProvider : MovieListDataProvider?
     var movieListModel : ViewModel?
+    var isSearching : Bool = false
     private var selectedMovie : Movie?
     var currentPage = 1
     var viewId = 111
    
     
+    
+    
+    @IBAction func searchTextChanged(_ sender: UITextField) {
+        if let text = sender.text{
+            isSearching = true
+            movieListModel?.searchMovie(searchText: text)
+        }
+        else{
+            
+            isSearching = false
+            self.movieListView.reloadData()
+        }
+        
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movieListModel?.movieList.value.count ?? 10
+        return isSearching ? movieListModel?.filteredList?.value.count ?? 0 : movieListModel?.movieList.value.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: Constants.movieListViewCellId, for: indexPath) as? MovieListCell
         {
-            if let dict = movieListModel?.movieList.value
-
-            {
-                let array = [Movie](dict.values)
-                cell.configureCell(from: array[indexPath.row])
+            if !isSearching {
+                if let dict = movieListModel?.movieList.value
+                    
+                {
+                    let array = Array(dict.values)
+                    print("DEBUG: cell array: \(array[indexPath.row].title)")
+                    cell.configureCell(from: array[indexPath.row] ?? Movie.MOCK_MOVIE)
+                    return cell
+                }
+            }
+            else{
+                cell.configureCell(from: movieListModel?.filteredList?.value[indexPath.row]  ?? Movie.MOCK_MOVIE )
                 return cell
             }
         }
@@ -56,9 +80,14 @@ class MovieListViewController: UIViewController,UITableViewDelegate,UITableViewD
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 //        print("DEBUG: \(movieList?[indexPath.row])")
-        if let movieList = movieListModel?.movieList{
-            let array = Array(movieList.value.values)
-            selectedMovie = array[indexPath.row]
+        if !isSearching {
+            if let movieList = movieListModel?.movieList{
+                let array = Array(movieList.value.values)
+                selectedMovie = array[indexPath.row] as? Movie
+            }
+        }
+        else{
+            selectedMovie = movieListModel?.filteredList?.value[indexPath.row] as? Movie
         }
         print("DEBUG: selectedmovie \(selectedMovie)")
         performSegue(withIdentifier: "ToMovieDetailsPage", sender: nil)
@@ -66,11 +95,25 @@ class MovieListViewController: UIViewController,UITableViewDelegate,UITableViewD
     
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row + 1 == movieListModel?.movieList.value.count{
         
-            currentPage = currentPage + 1
-            print("current page: \(currentPage)")
-            movieListModel?.getMovieList(from: Constants.fetchMovieListURLString + currentPage.description)
+        if let movieListModel = movieListModel{
+            guard !movieListModel.isPaginating else {
+                //already fetching data
+                return
+            }
+          
+            if indexPath.row + 1 == movieListModel.movieList.value.count{
+                showLoadingFooter()
+                currentPage = currentPage + 1
+    
+                print("current page: \(currentPage)")
+                movieListModel.getMovieList(from: Constants.fetchMovieListURLString + currentPage.description,pagination: true){
+                    DispatchQueue.main.async {
+                        self.hideLoadingFooter()
+                    }
+                    
+                }
+            }
         }
     }
 
