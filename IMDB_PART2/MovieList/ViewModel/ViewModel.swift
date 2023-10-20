@@ -10,13 +10,13 @@ import Foundation
 
 @objc class ViewModel: NSObject{
     
-    var movieList : DataProviderManager<[Int64 : MovieListable],[Int64:Data]>
-    var filteredList : DataProviderManager<[MovieListable],Any>?
+    var movieList : DataProviderManager<[Int64 : MovieListable]>
+    var filteredList : DataProviderManager<[MovieListable]>?
     var movieListURLService = URLService(responseHandler: ResponseHandler<Movies>())
     var isPaginating = false
     var isLoading = false
-    init(movieList : [Int64:MovieListable],data: [Int64 : Data],filteredList : [MovieListable]){
-        self.movieList = DataProviderManager(value: movieList,secondValue: data)
+    init(movieList : [Int64:MovieListable],filteredList : [MovieListable]){
+        self.movieList = DataProviderManager(value: movieList)
         self.filteredList = DataProviderManager(value: filteredList)
     }
     
@@ -45,8 +45,11 @@ import Foundation
                                         print("Error in fetching image : \(error.localizedDescription)")
                                     }
                                     else{
-                                        self.movieList.value[movie.id]?.posterImage = data as? Data
-                                        self.movieList.secondValue?[movie.id] = data as? Data
+//                                        self.movieList.value[movie.id]?.posterImage = data as? Data
+//                                        self.movieList.secondValue?[movie.id] = data as? Data
+                                        movie.posterImage = data as? Data
+//                                        self.movieList.value.removeValue(forKey: movie.id)
+                                        self.movieList.value.updateValue(movie, forKey: movie.id)
                                     }
                                     
                                 

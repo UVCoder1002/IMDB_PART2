@@ -90,13 +90,6 @@
 			path = DataProvider;
 			sourceTree = "<group>";
 		};
-		C600EAAC2A9C61CC00ACCA51 /* Data */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Data;
-			sourceTree = "<group>";
-		};
 		C600EAAD2A9C67C300ACCA51 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
@@ -126,7 +119,6 @@
 			children = (
 				C622EEDF2A9A5A43008F9E76 /* App */,
 				C600EAAD2A9C67C300ACCA51 /* Constants */,
-				C600EAAC2A9C61CC00ACCA51 /* Data */,
 				C600EAA32A9C5D1500ACCA51 /* DataProvider */,
 				C63A14F02A9DC3AA00797858 /* Extensions */,
 				C622EEE12A9A5A6C008F9E76 /* Helper */,
@@ -145,6 +137,7 @@
 		C622EEDD2A9A59FC008F9E76 /* MovieList */ = {
 			isa = PBXGroup;
 			children = (
+				C6FE10282AA85B810002F27C /* ViewModel */,
 				C600EAA12A9C5CDA00ACCA51 /* Controller */,
 				C600EAA02A9C5CBD00ACCA51 /* Component */,
 			);
@@ -172,7 +165,6 @@
 			isa = PBXGroup;
 			children = (
 				C622EED32A99C78F008F9E76 /* MovieViewModel.swift */,
-				C63A14F52A9E1B8300797858 /* ViewModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -199,6 +191,14 @@
 				C622EEC12A99C35E008F9E76 /* Main.storyboard */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		C6FE10282AA85B810002F27C /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				C63A14F52A9E1B8300797858 /* ViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

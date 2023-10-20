@@ -8,7 +8,7 @@
 import Foundation
 
 
-class DataProviderManager<T,S> {
+class DataProviderManager<T> {
     
     typealias CompletionHandler = ((T) -> Void)
     
@@ -18,22 +18,15 @@ class DataProviderManager<T,S> {
         }
     }
     
-    var secondValue : S?{
-        didSet{
-            self.notifyObserver(self.observers)
-        }
-    }
+   
     
     var observers : [Int : CompletionHandler] = [:]
     
-    init(value: T,secondValue: S){
-        self.value = value
-        self.secondValue = secondValue
-    }
     init(value: T){
         self.value = value
+        
     }
-    
+   
     func addObserver(_ observer: DataProvider,completion: @escaping CompletionHandler) {
         self.observers[observer.id] = completion
     }

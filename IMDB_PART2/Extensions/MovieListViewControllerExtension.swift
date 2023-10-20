@@ -23,7 +23,7 @@ extension MovieListViewController: MovieListDataProviderProtocol{
     
     
      func initDataProvider() {
-         self.movieListModel = ViewModel(movieList: [:],data: [:],filteredList: [])
+         self.movieListModel = ViewModel(movieList: [:],filteredList: [])
         print("DEBUG: inside initdataprovider")
         self.movieListModel?.movieList.addObserver(self) { updatedMovieListViewModel in
             DispatchQueue.main.async {

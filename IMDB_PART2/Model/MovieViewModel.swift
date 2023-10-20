@@ -28,9 +28,8 @@ import Foundation
         self.posterImage = posterImage
     }
     
-   
-    
 }
+
 
 protocol MovieListable {
     var id : Int64 { get set }
